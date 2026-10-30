@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-charcoal-deep: #10100F;
+  --color-charcoal: #171715;
+  --color-ivory: #E9E2D5;
+  --color-gold: #C8AD7C;
+  --color-gold-light: #DFCCA7;
+  --color-bronze: #9B8059;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #10100F;
+  color: #E9E2D5;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: #10100F;
+  color: #E9E2D5;
+  selection-background-color: #C8AD7C;
+  selection-color: #10100F;
+}
+
+::selection {
+  background-color: #C8AD7C;
+  color: #10100F;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #10100F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2F2F2A;
+  border-radius: 3px;
+  border: 1px solid rgba(200, 173, 124, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C8AD7C;
+}
+
+/* Luxury Editorial Styling Utilities */
+.gold-text-gradient {
+  background: linear-gradient(135deg, #DFCCA7 0%, #C8AD7C 50%, #9B8059 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border-gradient {
+  border-image: linear-gradient(to right, rgba(200, 173, 124, 0.4), rgba(200, 173, 124, 0.05)) 1;
+}
+
+.editorial-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 173, 124, 0.4), transparent);
+}
+
+.editorial-card {
+  background: linear-gradient(180deg, rgba(23, 23, 21, 0.8) 0%, rgba(16, 16, 15, 0.95) 100%);
+  border: 1px solid rgba(200, 173, 124, 0.15);
+  backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-card:hover {
+  border-color: rgba(200, 173, 124, 0.45);
+  box-shadow: 0 10px 30px -10px rgba(200, 173, 124, 0.08);
+}
+
+/* Grain texture overlay */
+.grain-overlay {
+  background-image: radial-gradient(rgba(200, 173, 124, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Accessibility focus ring */
+:focus-visible {
+  outline: 2px solid #C8AD7C;
+  outline-offset: 3px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print Styles for CV Download */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
