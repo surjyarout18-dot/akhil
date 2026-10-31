@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
+import { Magnetic } from "./Magnetic";
 
 interface NavbarProps {
   onOpenCvModal?: () => void;
@@ -48,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -67,29 +68,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-[#10100F]/90 backdrop-blur-md py-4 border-b border-[#C8AD7C]/15 shadow-2xl"
+            ? "bg-[#10100F]/92 backdrop-blur-md py-4 border-b border-[#C8AD7C]/15 shadow-2xl"
             : "bg-transparent py-6 md:py-8"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-          {/* Brand Mark */}
-          <a
-            href="#hero"
-            onClick={(e) => handleNavClick(e, "#hero")}
-            className="group flex items-center gap-3"
-          >
-            <div className="w-8 h-8 rounded-full border border-[#C8AD7C]/40 flex items-center justify-center transition-colors group-hover:border-[#C8AD7C]">
-              <span className="font-serif text-[#C8AD7C] text-xs font-medium">AB</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-sm md:text-base tracking-[0.25em] uppercase text-[#E9E2D5] font-light group-hover:text-white transition-colors">
-                AKHIL BAIJU
-              </span>
-              <span className="text-[9px] tracking-[0.2em] uppercase text-[#C8AD7C]/80 font-light">
-                Hospitality & Sales
-              </span>
-            </div>
-          </a>
+          {/* Brand Mark with Magnetic Hover */}
+          <Magnetic strength={0.25}>
+            <a
+              href="#hero"
+              onClick={(e) => handleNavClick(e, "#hero")}
+              data-cursor="HOME"
+              className="group flex items-center gap-3 cursor-pointer"
+            >
+              <div className="w-8 h-8 rounded-full border border-[#C8AD7C]/40 flex items-center justify-center transition-colors group-hover:border-[#C8AD7C] group-hover:bg-[#C8AD7C]/10">
+                <span className="font-serif text-[#C8AD7C] text-xs font-medium">AB</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-serif text-sm md:text-base tracking-[0.25em] uppercase text-[#E9E2D5] font-light group-hover:text-white transition-colors">
+                  AKHIL BAIJU
+                </span>
+                <span className="text-[9px] tracking-[0.2em] uppercase text-[#C8AD7C]/80 font-light">
+                  Hospitality &amp; Sales
+                </span>
+              </div>
+            </a>
+          </Magnetic>
 
           {/* Desktop Nav Items */}
           <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
@@ -121,21 +125,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
 
           {/* Right Action Buttons */}
           <div className="hidden sm:flex items-center gap-4">
-            <button
-              onClick={onOpenCvModal}
-              className="px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#C8AD7C] border border-[#C8AD7C]/30 hover:border-[#C8AD7C] hover:bg-[#C8AD7C]/10 transition-all rounded-sm flex items-center gap-2"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              <span>Curriculum Vitae</span>
-            </button>
-            <a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, "#contact")}
-              className="px-5 py-2 text-xs uppercase tracking-[0.18em] bg-[#C8AD7C] text-[#10100F] font-medium hover:bg-[#DFCCA7] transition-all rounded-sm flex items-center gap-1.5 shadow-sm"
-            >
-              <span>Connect</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </a>
+            <Magnetic strength={0.2}>
+              <button
+                onClick={onOpenCvModal}
+                data-cursor="CV"
+                className="px-4 py-2 text-xs uppercase tracking-[0.18em] text-[#C8AD7C] border border-[#C8AD7C]/30 hover:border-[#C8AD7C] hover:bg-[#C8AD7C]/10 transition-all rounded-sm flex items-center gap-2 cursor-pointer"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Curriculum Vitae</span>
+              </button>
+            </Magnetic>
+
+            <Magnetic strength={0.2}>
+              <a
+                href="#contact"
+                onClick={(e) => handleNavClick(e, "#contact")}
+                data-cursor="CONNECT"
+                className="px-5 py-2 text-xs uppercase tracking-[0.18em] bg-[#C8AD7C] text-[#10100F] font-medium hover:bg-[#DFCCA7] transition-all rounded-sm flex items-center gap-1.5 shadow-sm cursor-pointer"
+              >
+                <span>Connect</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </Magnetic>
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -212,7 +223,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
                 Get In Touch
               </a>
               <p className="text-center text-[10px] tracking-[0.2em] text-[#88847B] uppercase mt-2">
-                Akhil Baiju · Hospitality & Sales
+                Akhil Baiju · Hospitality &amp; Sales
               </p>
             </div>
           </motion.div>
@@ -221,4 +232,3 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCvModal }) => {
     </>
   );
 };
-

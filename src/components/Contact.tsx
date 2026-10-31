@@ -14,12 +14,38 @@ import {
   AlertCircle,
   ExternalLink,
   Sparkles,
+  Copy,
+  Check,
 } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
+import { Magnetic } from "./Magnetic";
 
 interface ContactProps {
   onOpenCvModal?: () => void;
 }
+
+const inquiryPresets = [
+  {
+    label: "Hospitality Management Placement",
+    subject: "Opportunity: Hospitality Management & Guest Relations",
+    starter: "Dear Akhil,\n\nWe were impressed by your background at Grand Hyatt Bolgatty and IHM Goa. We would like to discuss an opportunity regarding...",
+  },
+  {
+    label: "Sales & Marketing Trainee Role",
+    subject: "Opportunity: Luxury Hospitality Sales & Marketing Trainee",
+    starter: "Dear Akhil,\n\nWe have an opening in our hospitality sales team and would value your culinary and client communication background...",
+  },
+  {
+    label: "Guest Relations & F&B Executive",
+    subject: "Inquiry: Guest Experience & Food & Beverage Operations",
+    starter: "Dear Akhil,\n\nWe are looking for customer-centric hospitality talent with five-star brand exposure. Let's schedule a call to explore...",
+  },
+  {
+    label: "Exploratory Conversation",
+    subject: "Connecting with Akhil Baiju — Hospitality Professional",
+    starter: "Hi Akhil,\n\nI came across your portfolio and would love to connect for an exploratory discussion on upcoming opportunities in...",
+  },
+];
 
 export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
   const { personal } = portfolioData;
@@ -31,6 +57,8 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
     message: "",
   });
 
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -42,6 +70,29 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
       [e.target.name]: e.target.value,
     }));
     if (status !== "idle") setStatus("idle");
+  };
+
+  const selectPreset = (preset: typeof inquiryPresets[0]) => {
+    setFormData((prev) => ({
+      ...prev,
+      subject: preset.subject,
+      message: preset.starter,
+    }));
+    setStatus("idle");
+  };
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(personal.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  const handleCopyPhone = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(personal.phone);
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2500);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -91,7 +142,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
           <div className="inline-flex items-center gap-3 mb-3">
             <span className="w-8 h-[1px] bg-[#C8AD7C]" />
             <span className="text-xs uppercase tracking-[0.25em] text-[#C8AD7C] font-light">
-              Section 10 — Dialogue & Collaboration
+              Section 10 — Dialogue &amp; Collaboration
             </span>
             <span className="w-8 h-[1px] bg-[#C8AD7C]" />
           </div>
@@ -113,41 +164,61 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
               </span>
 
               <div className="space-y-6">
-                {/* Email Item */}
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="flex items-start gap-4 group p-3 -m-3 rounded-sm hover:bg-[#171715] transition-colors"
-                >
-                  <div className="w-10 h-10 rounded-sm bg-[#171715] border border-[#2F2F2A] group-hover:border-[#C8AD7C] flex items-center justify-center text-[#C8AD7C] shrink-0 transition-colors">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#88847B] font-light block">
-                      Electronic Mail
-                    </span>
-                    <span className="text-sm md:text-base text-[#E9E2D5] font-light group-hover:text-[#C8AD7C] transition-colors break-all">
-                      {personal.email}
-                    </span>
-                  </div>
-                </a>
+                {/* Email Item with Direct Copy */}
+                <div className="flex items-start justify-between p-3 -m-3 rounded-sm hover:bg-[#171715] transition-colors group">
+                  <a
+                    href={`mailto:${personal.email}`}
+                    className="flex items-start gap-4 flex-grow"
+                  >
+                    <div className="w-10 h-10 rounded-sm bg-[#171715] border border-[#2F2F2A] group-hover:border-[#C8AD7C] flex items-center justify-center text-[#C8AD7C] shrink-0 transition-colors">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-[#88847B] font-light block">
+                        Electronic Mail
+                      </span>
+                      <span className="text-sm md:text-base text-[#E9E2D5] font-light group-hover:text-[#C8AD7C] transition-colors break-all">
+                        {personal.email}
+                      </span>
+                    </div>
+                  </a>
 
-                {/* Telephone Item */}
-                <a
-                  href={`tel:${personal.phone.replace(/\s+/g, "")}`}
-                  className="flex items-start gap-4 group p-3 -m-3 rounded-sm hover:bg-[#171715] transition-colors"
-                >
-                  <div className="w-10 h-10 rounded-sm bg-[#171715] border border-[#2F2F2A] group-hover:border-[#C8AD7C] flex items-center justify-center text-[#C8AD7C] shrink-0 transition-colors">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#88847B] font-light block">
-                      Telephone / WhatsApp
-                    </span>
-                    <span className="text-sm md:text-base text-[#E9E2D5] font-light group-hover:text-[#C8AD7C] transition-colors">
-                      {personal.phone}
-                    </span>
-                  </div>
-                </a>
+                  <button
+                    onClick={handleCopyEmail}
+                    title="Copy email"
+                    className="p-2 text-[#88847B] hover:text-[#C8AD7C] transition-colors shrink-0"
+                  >
+                    {copiedEmail ? <Check className="w-4 h-4 text-[#C8AD7C]" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                {/* Telephone Item with Direct Copy */}
+                <div className="flex items-start justify-between p-3 -m-3 rounded-sm hover:bg-[#171715] transition-colors group">
+                  <a
+                    href={`tel:${personal.phone.replace(/\s+/g, "")}`}
+                    className="flex items-start gap-4 flex-grow"
+                  >
+                    <div className="w-10 h-10 rounded-sm bg-[#171715] border border-[#2F2F2A] group-hover:border-[#C8AD7C] flex items-center justify-center text-[#C8AD7C] shrink-0 transition-colors">
+                      <Phone className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-[#88847B] font-light block">
+                        Telephone / WhatsApp
+                      </span>
+                      <span className="text-sm md:text-base text-[#E9E2D5] font-light group-hover:text-[#C8AD7C] transition-colors">
+                        {personal.phone}
+                      </span>
+                    </div>
+                  </a>
+
+                  <button
+                    onClick={handleCopyPhone}
+                    title="Copy phone"
+                    className="p-2 text-[#88847B] hover:text-[#C8AD7C] transition-colors shrink-0"
+                  >
+                    {copiedPhone ? <Check className="w-4 h-4 text-[#C8AD7C]" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
 
                 {/* Location Item */}
                 <div className="flex items-start gap-4 p-3 -m-3">
@@ -159,7 +230,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
                       Geographic Base
                     </span>
                     <span className="text-sm md:text-base text-[#E9E2D5] font-light">
-                      India · Mobile for Domestic & International Placement
+                      India · Mobile for Domestic &amp; International Placement
                     </span>
                   </div>
                 </div>
@@ -167,29 +238,35 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
 
               {/* Action Buttons */}
               <div className="mt-8 pt-6 border-t border-[#22221E] flex flex-col gap-3">
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="w-full py-3 px-5 rounded-sm bg-[#C8AD7C] text-[#10100F] font-medium text-xs uppercase tracking-[0.2em] hover:bg-[#DFCCA7] transition-all flex items-center justify-center gap-2"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  <span>Send an Email</span>
-                </a>
+                <Magnetic strength={0.2} className="w-full">
+                  <a
+                    href={`mailto:${personal.email}`}
+                    className="w-full py-3.5 px-5 rounded-sm bg-[#C8AD7C] text-[#10100F] font-medium text-xs uppercase tracking-[0.2em] hover:bg-[#DFCCA7] transition-all flex items-center justify-center gap-2"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>Send an Email</span>
+                  </a>
+                </Magnetic>
 
-                <a
-                  href={`tel:${personal.phone.replace(/\s+/g, "")}`}
-                  className="w-full py-3 px-5 rounded-sm border border-[#C8AD7C]/40 text-[#E9E2D5] hover:text-white hover:border-[#C8AD7C] bg-[#171715] text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2"
-                >
-                  <Phone className="w-3.5 h-3.5 text-[#C8AD7C]" />
-                  <span>Call Me</span>
-                </a>
+                <Magnetic strength={0.2} className="w-full">
+                  <a
+                    href={`tel:${personal.phone.replace(/\s+/g, "")}`}
+                    className="w-full py-3.5 px-5 rounded-sm border border-[#C8AD7C]/40 text-[#E9E2D5] hover:text-white hover:border-[#C8AD7C] bg-[#171715] text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#C8AD7C]" />
+                    <span>Call Me</span>
+                  </a>
+                </Magnetic>
 
-                <button
-                  onClick={onOpenCvModal}
-                  className="w-full py-3 px-5 rounded-sm border border-[#2F2F2A] hover:border-[#C8AD7C]/60 text-[#D7CCBA] text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2"
-                >
-                  <Download className="w-3.5 h-3.5 text-[#C8AD7C]" />
-                  <span>Download My CV</span>
-                </button>
+                <Magnetic strength={0.2} className="w-full">
+                  <button
+                    onClick={onOpenCvModal}
+                    className="w-full py-3.5 px-5 rounded-sm border border-[#2F2F2A] hover:border-[#C8AD7C]/60 text-[#D7CCBA] text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2"
+                  >
+                    <Download className="w-3.5 h-3.5 text-[#C8AD7C]" />
+                    <span>Download My CV</span>
+                  </button>
+                </Magnetic>
               </div>
             </div>
 
@@ -224,10 +301,10 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
             </div>
           </div>
 
-          {/* Right Column: Interactive Contact Form */}
+          {/* Right Column: Interactive Contact Form with Fast-Pills */}
           <div className="lg:col-span-7">
             <div className="p-8 md:p-12 rounded-sm bg-[#10100F] border border-[#C8AD7C]/30 shadow-2xl">
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#2F2F2A]">
+              <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#2F2F2A]">
                 <div>
                   <span className="text-[10px] uppercase tracking-[0.25em] text-[#C8AD7C] font-light block">
                     Direct Inquiry Dispatch
@@ -237,6 +314,25 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
                   </h3>
                 </div>
                 <Sparkles className="w-5 h-5 text-[#C8AD7C]" />
+              </div>
+
+              {/* Fast Opportunity Presets */}
+              <div className="mb-6">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[#88847B] block mb-2 font-light">
+                  Quick Inquiry Templates (Click to Auto-fill):
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {inquiryPresets.map((preset, pIdx) => (
+                    <button
+                      key={pIdx}
+                      type="button"
+                      onClick={() => selectPreset(preset)}
+                      className="px-3 py-1.5 rounded-sm bg-[#171715] hover:bg-[#C8AD7C]/15 border border-[#2F2F2A] hover:border-[#C8AD7C]/50 text-[11px] text-[#DFCCA7] transition-all text-left"
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -301,14 +397,19 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
                   />
                 </div>
 
-                {/* Message */}
+                {/* Message with Character Counter */}
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-[11px] uppercase tracking-[0.2em] text-[#88847B] font-light mb-2"
-                  >
-                    Your Message <span className="text-[#C8AD7C]">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-[11px] uppercase tracking-[0.2em] text-[#88847B] font-light"
+                    >
+                      Your Message <span className="text-[#C8AD7C]">*</span>
+                    </label>
+                    <span className="text-[10px] text-[#88847B] font-mono">
+                      {formData.message.length} characters
+                    </span>
+                  </div>
                   <textarea
                     id="message"
                     name="message"
@@ -359,7 +460,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="w-full py-4 rounded-sm bg-[#C8AD7C] text-[#10100F] font-medium text-xs uppercase tracking-[0.25em] hover:bg-[#DFCCA7] disabled:opacity-50 transition-all shadow-lg flex items-center justify-center gap-2 group"
+                  className="w-full py-4 rounded-sm bg-[#C8AD7C] text-[#10100F] font-medium text-xs uppercase tracking-[0.25em] hover:bg-[#DFCCA7] disabled:opacity-50 transition-all shadow-lg flex items-center justify-center gap-2 group cursor-pointer"
                 >
                   {status === "submitting" ? (
                     <span>Opening Transmission...</span>
@@ -382,4 +483,3 @@ export const Contact: React.FC<ContactProps> = ({ onOpenCvModal }) => {
     </section>
   );
 };
-

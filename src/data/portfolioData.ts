@@ -332,7 +332,7 @@ export const portfolioData = {
       description:
         "As goalkeeper and captain, anchored the defense line with split-second decision-making, vocal spatial coordination, and unwavering responsibility as the final line of defense.",
       keyTakeaway: "Unflappable composure, total ownership, and situational clarity.",
-      image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=85",
+      image: "https://images.unsplash.com/photo-1528040687826-bb1548224f87?auto=format&fit=crop&w=1000&q=85",
     },
     {
       role: "Performer & Speaker",
@@ -392,7 +392,7 @@ export const portfolioData = {
       category: "Traditional Athletics",
       description: "Speed, explosive agility, situational alertness, and collective trust.",
       icon: "Flame",
-      image: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80",
     },
     {
       name: "Sketching",

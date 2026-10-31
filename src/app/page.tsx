@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Preloader } from "@/components/Preloader";
 import { CustomCursor } from "@/components/CustomCursor";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
@@ -22,6 +23,9 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen bg-[#10100F] text-[#E9E2D5] overflow-x-hidden selection:bg-[#C8AD7C] selection:text-[#10100F]">
+      {/* Top Scroll Progress Line & Floating Section HUD */}
+      <ScrollProgress />
+
       {/* Preloader Animation */}
       <Preloader />
 
@@ -72,4 +76,3 @@ export default function Home() {
     </main>
   );
 }
-
